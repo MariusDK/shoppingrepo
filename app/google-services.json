@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "122734727803",
+    "firebase_url": "https://fir-app-f2a96.firebaseio.com",
+    "project_id": "fir-app-f2a96",
+    "storage_bucket": "fir-app-f2a96.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122734727803:android:5bbeaff8478675dd",
+        "android_client_info": {
+          "package_name": "com.example.marius.shoppingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122734727803-83u9qh32bl6c30rn0rm4hh5gdpdc98ks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marius.shoppingapp",
+            "certificate_hash": "fd0604ee1ff7855f33b861eaa45e737e34e9c8b9"
+          }
+        },
+        {
+          "client_id": "122734727803-f3h1s4k2bj4tn7m0jnohgrg23buigqum.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrhYn046B5gqN7J7Sh9GllzW7FGNd3aE8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122734727803-f3h1s4k2bj4tn7m0jnohgrg23buigqum.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
