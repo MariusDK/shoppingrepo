@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.marius.shoppingapp.R;
 
@@ -20,6 +21,9 @@ public class RegisterFragment extends Fragment {
     private TextInputLayout emailInput;
     private TextInputLayout passwordInput;
     private TextInputLayout confirmInput;
+    private Button register;
+    private onRegisterListener listener;
+
 
     public RegisterFragment()
     {}
@@ -30,7 +34,11 @@ public class RegisterFragment extends Fragment {
 
 
         View v = inflater.inflate(R.layout.fragment_register,container);
-        emailInp
+        emailInput = v.findViewById(R.id.email_register_id);
+        passwordInput = v.findViewById(R.id.password_register_id);
+        confirmInput = v.findViewById(R.id.confirm_register_id);
+        register = v.findViewById(R.id.register_button_id);
+
 
 
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -41,8 +49,18 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = emailInput.getEditText().getText().toString();
+                String password = passwordInput.getEditText().getText().toString();
+                String confirm = confirmInput.getEditText().getText().toString();
+                if (checkIfPasswordMatch(password,confirm))
+                {
+                    listener.onClickRegisterListener(email, password);
+                }
+            }
+        });
     }
 
     @Override
@@ -64,5 +82,15 @@ public class RegisterFragment extends Fragment {
             return true;
         }
         else return false;
+    }
+    public interface onRegisterListener
+    {
+        public void onClickRegisterListener(String email,String password);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (onRegisterListener)context;
     }
 }

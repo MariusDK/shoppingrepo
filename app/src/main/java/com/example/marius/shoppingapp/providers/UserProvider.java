@@ -24,6 +24,7 @@ public class UserProvider {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private String userId;
+    private UserListener listener;
 
 
     public UserProvider() {
@@ -42,12 +43,14 @@ public class UserProvider {
                             FirebaseUser user = mAuth.getCurrentUser();
                             userId = user.getProviderId();
                             System.out.println(user.getEmail());
+                            listener.OnRegisterInListener(true);
 
                         }
                         else {
                             FirebaseAuthException e = (FirebaseAuthException)task.getException();
                             System.out.println("Eroarea este: "+e.getMessage());
                             //Toast.makeText(this,"Authentification failed.", Toast.LENGTH_SHORT).show();
+                            listener.OnRegisterInListener(false);
                         }
                     }
                 });
@@ -62,11 +65,13 @@ public class UserProvider {
                     FirebaseUser user = mAuth.getCurrentUser();
                     userId = user.getProviderId();
                     System.out.println(user.getEmail());
+                    listener.OnSignInListener(true);
                 }
                 else {
                     FirebaseAuthException e = (FirebaseAuthException)task.getException();
                     System.out.println("Eroarea este: "+e.getMessage());
                     //Toast.makeText()
+                    listener.OnSignInListener(false);
                 }
             }
         });
@@ -78,5 +83,10 @@ public class UserProvider {
 
     public String getUserId() {
         return mAuth.getCurrentUser().getUid();
+    }
+    public interface UserListener
+    {
+        public void OnSignInListener(boolean result);
+        public void OnRegisterInListener(boolean result);
     }
 }
