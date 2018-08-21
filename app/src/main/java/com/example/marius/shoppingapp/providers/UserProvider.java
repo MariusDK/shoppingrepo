@@ -31,43 +31,6 @@ public class UserProvider {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public String addUser(String email, String password)
-    {
-        User user = new User(email,password);
-        userId = mDatabase.push().getKey();
-        mDatabase.child(userId).setValue(user);
-        return userId;
-    }
-    public User getUser(String UserId)
-    {
-        final User[] u = new User[1];
-        mDatabase.child(UserId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                u[0] = user;
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return u[0];
-    }
-
-    public void updateUser(String UserId, String email, String password)
-    {
-
-        mDatabase.child(UserId).child("email").setValue(email);
-        mDatabase.child(UserId).child("password").setValue(password);
-    }
-    public void removeUser(String UserId)
-    {
-        mDatabase.child(UserId).removeValue();
-    }
-
-
     public void register(String email, String password)
     {
         mAuth.createUserWithEmailAndPassword(email, password)

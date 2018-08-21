@@ -29,7 +29,7 @@ public class ItemListProvider {
 
     public String createList(String name,String location,String description, String userID)
     {
-        ArrayList<String> list = new ArrayList();
+
         ShoppingList shoppingList = new ShoppingList();
         shoppingList.setNume(name);
         Date date = new Date();
@@ -39,7 +39,6 @@ public class ItemListProvider {
         shoppingList.setLocation(location);
         shoppingList.setDescription(description);
         shoppingList.setId_user(userID);
-        shoppingList.setItemList(list);
         shoppingList.setStatus(true);
         String listID = mDatabase.push().getKey();
         mDatabase.child(listID).setValue(shoppingList);
@@ -51,45 +50,14 @@ public class ItemListProvider {
     }
 
 
-    public void getAllLists(final String id_user)
-    {
-        final ArrayList<String> lists = new ArrayList<>();
-        DatabaseReference ref = mDatabase;
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showDataList(dataSnapshot,id_user);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        ref.addListenerForSingleValueEvent(eventListener);
-    }
-    private void showDataList(DataSnapshot dataSnapshot, String id_user)
-    {
-        lists = new ArrayList();
-        for (DataSnapshot ds : dataSnapshot.getChildren())
-        {
-
-            ShoppingList listName = ds.getValue(ShoppingList.class);
-            listName.setIdList(ds.getKey());
-            if (listName.getId_user().equals(id_user)) {
-                lists.add(listName);
-                System.out.println(listName.getIdList());
-            }
-        }
-
-    }
 
     public void getShoppingLists(String id_user)
     {
         mDatabase.orderByChild("id_user").equalTo(id_user).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showDataList2(dataSnapshot);
+                showDataList(dataSnapshot);
             }
 
             @Override
@@ -98,7 +66,7 @@ public class ItemListProvider {
             }
         });
     }
-    public void showDataList2(DataSnapshot dataSnapshot)
+    public void showDataList(DataSnapshot dataSnapshot)
     {
         lists = new ArrayList();
         for (DataSnapshot ds : dataSnapshot.getChildren())
@@ -110,18 +78,6 @@ public class ItemListProvider {
             System.out.println(listName.getIdList());
         }
     }
-    public ShoppingList get_List(String name, String id_user)
-    {
-        getAllLists(id_user);
-        for (ShoppingList shoppingList:lists)
-        {
-            if (shoppingList.getNume().equals(name))
-            {return shoppingList;}
-        }
-        return null;
-    }
-
-
 
     public String getSelectedItemId() {
         return SelectedItemId;
@@ -131,13 +87,10 @@ public class ItemListProvider {
 
             mDatabase.child(listName).child(idItem).removeValue();
     }
-    public void statusOn(String listName)
+    public void statusChanger(String listName, boolean value)
     {
-        mDatabase.child(listName).child("status").setValue(true);
-    }
-    public void statusOff(String listName)
-    {
-        mDatabase.child(listName).child("status").setValue(false);
+        mDatabase.child(listName).child("status").setValue(value);
+
     }
 
 }

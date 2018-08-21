@@ -13,7 +13,6 @@ public class ShoppingList {
     private String description;
     private Long date;
     private String id_user;
-    private ArrayList<String> itemList;
     private boolean status;
     @Exclude
     private String idList;
@@ -27,7 +26,6 @@ public class ShoppingList {
         this.description = description;
         this.date = date;
         this.id_user = id_user;
-        this.itemList = itemList;
         this.status = status;
     }
 
@@ -69,14 +67,6 @@ public class ShoppingList {
 
     public void setId_user(String id_user) {
         this.id_user = id_user;
-    }
-
-    public ArrayList<String> getItemList() {
-        return itemList;
-    }
-
-    public void setItemList(ArrayList<String> itemList) {
-        this.itemList = itemList;
     }
 
     public boolean isStatus() {

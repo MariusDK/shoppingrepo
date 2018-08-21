@@ -21,6 +21,7 @@ public class ItemProvider {
         databaseReference = FirebaseDatabase.getInstance().getReference("items");
         itemArrayList = new ArrayList<>();
     }
+
     public String addItem(String ItemName, int Quantity,String ListKey)
     {
         Item item = new Item(ItemName,Quantity);
@@ -58,10 +59,9 @@ public class ItemProvider {
     }
     public void getItems(String id_List)
     {
-        //final ArrayList<String> lists = new ArrayList<>();
+
         id_list_selected = id_List;
-        DatabaseReference ref = databaseReference;
-        ValueEventListener eventListener = new ValueEventListener() {
+        databaseReference.orderByChild(id_List).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showDataList(dataSnapshot);
@@ -71,19 +71,17 @@ public class ItemProvider {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        };
-        ref.addListenerForSingleValueEvent(eventListener);
+        });
     }
     public void showDataList(DataSnapshot snapshot)
     {
         for (DataSnapshot ds : snapshot.getChildren())
         {
-            if (id_list_selected.equals(ds.getKey())) {
+
                 for (DataSnapshot ds2:ds.getChildren()) {
                     Item item = ds2.getValue(Item.class);
                     itemArrayList.add(item);
-                    System.out.println(item.toString());
-                }
+                    //System.out.println(item.toString());
             }
         }
     }
@@ -94,6 +92,14 @@ public class ItemProvider {
 
     public void setItemArrayList(ArrayList<Item> itemArrayList) {
         this.itemArrayList = itemArrayList;
+    }
+    public void addListItems(ArrayList<Item> items,String id_list)
+    {
+        for (Item item:items)
+        {
+            String itemId = databaseReference.push().getKey();
+            databaseReference.child(id_list).child(itemId).setValue(item);
+        }
     }
 
 }
