@@ -8,11 +8,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.example.marius.shoppingapp.R;
 
@@ -35,8 +40,11 @@ public class LoginFragment extends Fragment {
         passwordInput = v.findViewById(R.id.password_login_id);
         login = v.findViewById(R.id.login_id);
         registerText = v.findViewById(R.id.register_text_id);
-        ActionBar actionBar =  getActivity().getActionBar();
-        actionBar.setTitle("Login");
+//        ActionBar actionBar =  getActivity().getActionBar();
+//        actionBar.setTitle("Login");
+        Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar_id);
+        toolbar.setTitle("Login");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         return v;
     }
@@ -49,7 +57,13 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 String email = emailInput.getEditText().getText().toString();
                 String password = passwordInput.getEditText().getText().toString();
-                loginListener.onClickLoginListener(email,password);
+                if (email.equals("")||password.equals(""))
+                {
+                    Toast.makeText(getActivity(),"Empty email or password!",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    loginListener.onClickLoginListener(email, password);
+                }
             }
         });
         registerText.setOnClickListener(new View.OnClickListener() {

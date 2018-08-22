@@ -10,7 +10,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.RegisterFragment">
-
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_register_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:textAlignment="center"
+        app:titleTextColor="@android:color/white"
+        app:theme="@style/ToolbarStyle"
+        >
+    </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/email_register_id"

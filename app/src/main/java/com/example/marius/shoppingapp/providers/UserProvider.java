@@ -1,5 +1,6 @@
 package com.example.marius.shoppingapp.providers;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
@@ -27,9 +28,10 @@ public class UserProvider {
     private UserListener listener;
 
 
-    public UserProvider() {
+    public UserProvider(Context context) {
         this.mDatabase = FirebaseDatabase.getInstance().getReference("users");
         mAuth = FirebaseAuth.getInstance();
+        listener = (UserListener)context;
     }
 
     public void register(String email, String password)
@@ -43,14 +45,15 @@ public class UserProvider {
                             FirebaseUser user = mAuth.getCurrentUser();
                             userId = user.getProviderId();
                             System.out.println(user.getEmail());
-                            listener.OnRegisterInListener(true);
+                            listener.OnRegisterListener();
+
 
                         }
                         else {
                             FirebaseAuthException e = (FirebaseAuthException)task.getException();
                             System.out.println("Eroarea este: "+e.getMessage());
                             //Toast.makeText(this,"Authentification failed.", Toast.LENGTH_SHORT).show();
-                            listener.OnRegisterInListener(false);
+                            listener.OnFailRegisterListener(e.getMessage());
                         }
                     }
                 });
@@ -65,13 +68,13 @@ public class UserProvider {
                     FirebaseUser user = mAuth.getCurrentUser();
                     userId = user.getProviderId();
                     System.out.println(user.getEmail());
-                    listener.OnSignInListener(true);
+                    listener.OnSignInListener();
                 }
                 else {
                     FirebaseAuthException e = (FirebaseAuthException)task.getException();
                     System.out.println("Eroarea este: "+e.getMessage());
                     //Toast.makeText()
-                    listener.OnSignInListener(false);
+                    listener.OnFailSignInListener(e.getMessage());
                 }
             }
         });
@@ -86,7 +89,9 @@ public class UserProvider {
     }
     public interface UserListener
     {
-        public void OnSignInListener(boolean result);
-        public void OnRegisterInListener(boolean result);
+        public void OnSignInListener();
+        public void OnFailSignInListener(String msg);
+        public void OnRegisterListener();
+        public void OnFailRegisterListener(String msg);
     }
 }

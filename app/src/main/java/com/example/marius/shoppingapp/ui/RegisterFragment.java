@@ -8,11 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.marius.shoppingapp.R;
 
@@ -33,7 +36,7 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View v = inflater.inflate(R.layout.fragment_register,container);
+        View v = inflater.inflate(R.layout.fragment_register,container,false);
         emailInput = v.findViewById(R.id.email_register_id);
         passwordInput = v.findViewById(R.id.password_register_id);
         confirmInput = v.findViewById(R.id.confirm_register_id);
@@ -41,8 +44,12 @@ public class RegisterFragment extends Fragment {
 
 
 
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActivity().getActionBar().setTitle("Register");
+        Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar_register_id);
+        toolbar.setTitle("Register");
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         return v;
     }
 
@@ -55,25 +62,26 @@ public class RegisterFragment extends Fragment {
                 String email = emailInput.getEditText().getText().toString();
                 String password = passwordInput.getEditText().getText().toString();
                 String confirm = confirmInput.getEditText().getText().toString();
-                if (checkIfPasswordMatch(password,confirm))
+                if ((email.equals("")||password.equals(""))||confirm.equals("")) {
+                    Toast.makeText(getActivity(),"Empty fields",Toast.LENGTH_SHORT).show();
+
+
+                }
+                else
                 {
-                    listener.onClickRegisterListener(email, password);
+                    if (checkIfPasswordMatch(password, confirm)) {
+                        listener.onClickRegisterListener(email, password);
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(),"Passwords don't match!",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(getActivity());
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
 
     public boolean checkIfPasswordMatch(String password,String confirmPassword)
     {

@@ -1,10 +1,12 @@
 package com.example.marius.shoppingapp;
 
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.marius.shoppingapp.providers.ItemListProvider;
@@ -14,14 +16,15 @@ import com.example.marius.shoppingapp.ui.LoginFragment;
 import com.example.marius.shoppingapp.ui.RegisterFragment;
 import com.google.firebase.database.DatabaseReference;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.onLoginListener, UserProvider.UserListener{
+public class MainActivity extends AppCompatActivity implements LoginFragment.onLoginListener, UserProvider.UserListener, RegisterFragment.onRegisterListener{
     private FragmentManager fragmentManager;
     private LoginFragment loginFragment;
     private RegisterFragment registerFragment;
     private UserProvider provider;
     private ItemListProvider itemListProvider;
     private ItemProvider itemProvider;
-    private boolean resultLogin = false;
+
+
 
 
 
@@ -29,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        provider = new UserProvider();
+        provider = new UserProvider(this);
+        registerFragment = new RegisterFragment();
 //        itemListProvider = new ItemListProvider();
 //        itemProvider = new ItemProvider();
 //        String email = "admin@gmail.com";
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
 //        //itemListProvider.getAllLists("jH1S3nW8HnhVAfQsVv5oRpnRQJj1");
 //        itemListProvider.getShoppingLists("jH1S3nW8HnhVAfQsVv5oRpnRQJj1");
 
+
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         loginFragment = new LoginFragment();
@@ -64,29 +69,57 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
     @Override
     public void onClickLoginListener(String email, String password) {
         provider.signIn(email,password);
-        if (resultLogin == true)
-        {
-            //Next page
-        }
     }
 
     @Override
     public void onClickRegisterTextListenr() {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        registerFragment = new RegisterFragment();
-        fragmentTransaction.add(R.id.continer, registerFragment);
+        fragmentTransaction.remove(loginFragment);
+        fragmentTransaction.replace(R.id.continer, registerFragment);
         fragmentTransaction.commit();
     }
 
     @Override
-    public void OnSignInListener(boolean resultLogin) {
-        this.resultLogin = resultLogin;
+    public void OnSignInListener() {
+        Intent intent = new Intent(MainActivity.this,ShoppingListActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
-    public void OnRegisterInListener(boolean result) {
-
+    public void OnFailSignInListener(String msg) {
+       Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void OnRegisterListener() {
+        Intent intent = new Intent(MainActivity.this,ShoppingListActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
+    @Override
+    public void OnFailRegisterListener(String msg) {
+        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.remove(registerFragment);
+                fragmentTransaction.replace(R.id.continer, loginFragment);
+                fragmentTransaction.commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onClickRegisterListener(String email, String password) {
+        provider.register(email,password);
+    }
 }
