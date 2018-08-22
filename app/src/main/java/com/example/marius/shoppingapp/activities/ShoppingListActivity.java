@@ -1,7 +1,9 @@
-package com.example.marius.shoppingapp;
+package com.example.marius.shoppingapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.marius.shoppingapp.R;
 
 public class ShoppingListActivity extends AppCompatActivity {
 

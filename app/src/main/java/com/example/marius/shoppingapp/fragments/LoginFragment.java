@@ -1,15 +1,12 @@
-package com.example.marius.shoppingapp.ui;
+package com.example.marius.shoppingapp.fragments;
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,8 +37,6 @@ public class LoginFragment extends Fragment {
         passwordInput = v.findViewById(R.id.password_login_id);
         login = v.findViewById(R.id.login_id);
         registerText = v.findViewById(R.id.register_text_id);
-//        ActionBar actionBar =  getActivity().getActionBar();
-//        actionBar.setTitle("Login");
         Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar_id);
         toolbar.setTitle(getResources().getString(R.string.loginTitle));
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -59,7 +54,7 @@ public class LoginFragment extends Fragment {
                 String password = passwordInput.getEditText().getText().toString();
                 if (email.equals("")||password.equals(""))
                 {
-                    Toast.makeText(getActivity(),"Empty email or password!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),getResources().getString(R.string.empltyLogin),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     loginListener.onClickLoginListener(email, password);

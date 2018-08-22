@@ -1,7 +1,8 @@
-package com.example.marius.shoppingapp;
+package com.example.marius.shoppingapp.activities;
 
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +10,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.marius.shoppingapp.R;
 import com.example.marius.shoppingapp.providers.ItemListProvider;
 import com.example.marius.shoppingapp.providers.ItemProvider;
 import com.example.marius.shoppingapp.providers.UserProvider;
-import com.example.marius.shoppingapp.ui.LoginFragment;
-import com.example.marius.shoppingapp.ui.RegisterFragment;
-import com.google.firebase.database.DatabaseReference;
+import com.example.marius.shoppingapp.fragments.LoginFragment;
+import com.example.marius.shoppingapp.fragments.RegisterFragment;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.onLoginListener, UserProvider.UserListener, RegisterFragment.onRegisterListener{
     private FragmentManager fragmentManager;
@@ -23,7 +24,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
     private UserProvider provider;
     private ItemListProvider itemListProvider;
     private ItemProvider itemProvider;
-    private FragmentTransaction fragmentTransaction;
+
+
 
 
 
@@ -37,7 +39,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
         registerFragment = new RegisterFragment();
 
         fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         loginFragment = new LoginFragment();
         fragmentTransaction.add(R.id.continer,loginFragment);
         fragmentTransaction.commit();
@@ -52,9 +55,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
 
     @Override
     public void onClickRegisterTextListenr() {
-        fragmentTransaction.remove(loginFragment);
-        fragmentTransaction.replace(R.id.continer, registerFragment);
-        fragmentTransaction.commit();
+        settingFragment(registerFragment,loginFragment);
     }
 
     @Override
@@ -74,9 +75,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
         switch (item.getItemId())
         {
             case android.R.id.home:
-                fragmentTransaction.remove(registerFragment);
-                fragmentTransaction.replace(R.id.continer, loginFragment);
-                fragmentTransaction.commit();
+                settingFragment(loginFragment,registerFragment);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -86,6 +85,13 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
     @Override
     public void onClickRegisterListener(String email, String password) {
         provider.register(email,password);
+    }
+    public void settingFragment(Fragment fragmentAdd,Fragment fragmentRemove)
+    {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(fragmentRemove);
+        fragmentTransaction.replace(R.id.continer, fragmentAdd);
+        fragmentTransaction.commit();
     }
 
 
