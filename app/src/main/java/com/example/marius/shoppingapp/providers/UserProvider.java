@@ -45,7 +45,7 @@ public class UserProvider {
                             FirebaseUser user = mAuth.getCurrentUser();
                             userId = user.getProviderId();
                             System.out.println(user.getEmail());
-                            listener.OnRegisterListener();
+                            listener.OnSuccesListener();
 
 
                         }
@@ -53,7 +53,7 @@ public class UserProvider {
                             FirebaseAuthException e = (FirebaseAuthException)task.getException();
                             System.out.println("Eroarea este: "+e.getMessage());
                             //Toast.makeText(this,"Authentification failed.", Toast.LENGTH_SHORT).show();
-                            listener.OnFailRegisterListener(e.getMessage());
+                            listener.OnFailListener(e.getMessage());
                         }
                     }
                 });
@@ -68,13 +68,13 @@ public class UserProvider {
                     FirebaseUser user = mAuth.getCurrentUser();
                     userId = user.getProviderId();
                     System.out.println(user.getEmail());
-                    listener.OnSignInListener();
+                    listener.OnSuccesListener();
                 }
                 else {
                     FirebaseAuthException e = (FirebaseAuthException)task.getException();
                     System.out.println("Eroarea este: "+e.getMessage());
                     //Toast.makeText()
-                    listener.OnFailSignInListener(e.getMessage());
+                    listener.OnFailListener(e.getMessage());
                 }
             }
         });
@@ -89,9 +89,8 @@ public class UserProvider {
     }
     public interface UserListener
     {
-        public void OnSignInListener();
-        public void OnFailSignInListener(String msg);
-        public void OnRegisterListener();
-        public void OnFailRegisterListener(String msg);
+        public void OnSuccesListener();
+        public void OnFailListener(String msg);
+
     }
 }

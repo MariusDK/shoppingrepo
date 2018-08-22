@@ -43,7 +43,7 @@ public class LoginFragment extends Fragment {
 //        ActionBar actionBar =  getActivity().getActionBar();
 //        actionBar.setTitle("Login");
         Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar_id);
-        toolbar.setTitle("Login");
+        toolbar.setTitle(getResources().getString(R.string.loginTitle));
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         return v;

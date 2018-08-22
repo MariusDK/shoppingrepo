@@ -45,7 +45,7 @@ public class RegisterFragment extends Fragment {
 
 
         Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar_register_id);
-        toolbar.setTitle("Register");
+        toolbar.setTitle(getResources().getString(R.string.registerTitle));
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,11 +85,7 @@ public class RegisterFragment extends Fragment {
 
     public boolean checkIfPasswordMatch(String password,String confirmPassword)
     {
-        if (password.equals(confirmPassword))
-        {
-            return true;
-        }
-        else return false;
+        return password.equals(confirmPassword);
     }
     public interface onRegisterListener
     {
