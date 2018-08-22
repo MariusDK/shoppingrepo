@@ -21,10 +21,15 @@ public class ItemListProvider {
     private ArrayList<Item> itemsArrayList;
     private String SelectedItemId;
     private String SelectedItemName;
-
+    private getListListener listListener;
     public ItemListProvider() {
         mDatabase = FirebaseDatabase.getInstance().getReference("shoppinglists");
         items = new ArrayList<>();
+    }
+    public ItemListProvider(getListListener listListener) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("shoppinglists");
+        items = new ArrayList<>();
+        this.listListener = listListener;
     }
 
     public String createList(String name,String location,String description, String userID)
@@ -39,7 +44,7 @@ public class ItemListProvider {
         shoppingList.setLocation(location);
         shoppingList.setDescription(description);
         shoppingList.setId_user(userID);
-        shoppingList.setStatus(true);
+        shoppingList.setStatus(false);
         String listID = mDatabase.push().getKey();
         mDatabase.child(listID).setValue(shoppingList);
         return listID;
@@ -58,6 +63,7 @@ public class ItemListProvider {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showDataList(dataSnapshot);
+                listListener.finishListener(lists);
             }
 
             @Override
@@ -93,4 +99,16 @@ public class ItemListProvider {
 
     }
 
+    public ArrayList<ShoppingList> getLists() {
+        return lists;
+    }
+
+    public void setLists(ArrayList<ShoppingList> lists) {
+        this.lists = lists;
+    }
+
+    public interface getListListener
+    {
+        public void finishListener(ArrayList<ShoppingList> lists);
+    }
 }

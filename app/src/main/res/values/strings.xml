@@ -11,4 +11,10 @@
     <string name="confirmP">Confirm Password</string>
     <string name="emptyLogin">Empty email or password!</string>
     <string name="emptyRegister">Empty fields!</string>
+    <string name="currentShoppingLists">Current Shopping Lists</string>
+    <string name="completedShoppingLists">Completed Shopping Lists</string>
+    <string name="listTitle">Shopping Lists</string>
+    <string name="sort">Sort</string>
+    <string name="logout">Logout</string>
+    <string name="noData">No Data</string>
 </resources>

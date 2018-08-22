@@ -84,4 +84,9 @@ public class ShoppingList {
     public void setIdList(String idList) {
         this.idList = idList;
     }
+
+    @Override
+    public String toString() {
+        return nume;
+    }
 }

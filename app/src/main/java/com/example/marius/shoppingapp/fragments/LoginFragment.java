@@ -54,7 +54,7 @@ public class LoginFragment extends Fragment {
                 String password = passwordInput.getEditText().getText().toString();
                 if (email.equals("")||password.equals(""))
                 {
-                    Toast.makeText(getActivity(),getResources().getString(R.string.empltyLogin),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),getResources().getString(R.string.emptyLogin),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     loginListener.onClickLoginListener(email, password);

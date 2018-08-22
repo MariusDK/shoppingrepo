@@ -7,5 +7,4 @@
     tools:context=".activities.MainActivity"
     android:id="@+id/continer">
 
-
 </FrameLayout>
