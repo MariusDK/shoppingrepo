@@ -59,7 +59,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         completeListText = findViewById(R.id.completed_list_id_text);
         currentListText = findViewById(R.id.current_list_id_text);
         noDataTextView = findViewById(R.id.nodData_id);
-        noDataTextView.setAlpha(0.0f);
+        noDataTextView.setVisibility(View.INVISIBLE);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_list_page_id);
         toolbar.setTitle(getResources().getString(R.string.listTitle));
         this.setSupportActionBar(toolbar);
@@ -96,17 +96,17 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         progressBar.setVisibility(View.INVISIBLE);
         shoppingLists = lists;
         if (shoppingLists.isEmpty()) {
-            completeListText.setAlpha(0.0f);
-            currentListText.setAlpha(0.0f);
-            noDataTextView.setAlpha(1.0f);
+            completeListText.setVisibility(View.INVISIBLE);
+            currentListText.setVisibility(View.INVISIBLE);
+            noDataTextView.setVisibility(View.VISIBLE);
             Toast toast = Toast.makeText(this,getResources().getString(R.string.noData), Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
         else {
-            completeListText.setAlpha(1.0f);
-            currentListText.setAlpha(1.0f);
-            noDataTextView.setAlpha(0.0f);
+            completeListText.setVisibility(View.VISIBLE);
+            currentListText.setVisibility(View.VISIBLE);
+            noDataTextView.setVisibility(View.INVISIBLE);
             for (ShoppingList shoppingList : shoppingLists) {
                 if (shoppingList.isStatus())
                 {
