@@ -1,14 +1,14 @@
 package com.example.marius.shoppingapp.activities;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -31,23 +31,27 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
     private ListView listViewComplete;
     private ListAdapter adapter1;
     private ListAdapter adapter2;
-
+    private FloatingActionButton buttonAdd;
     private ProgressBar progressBar;
     private ArrayList<ShoppingList> InCompletedList;
     private ArrayList<ShoppingList> CompletedList;
     private TextView currentListText;
     private TextView completeListText;
     private TextView noDataTextView;
+    private FragmentManager fragmentManager;
     private ItemListProvider providerList;
+
     ArrayList<ShoppingList> shoppingLists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
+
         provider = new UserProvider();
+        fragmentManager = getSupportFragmentManager();
         providerList = new ItemListProvider(this);
         listViewIncomplet = findViewById(R.id.list_id);
-        listViewComplete = findViewById(R.id.list_id_completed);
+        listViewComplete = findViewById(R.id.list_items_id);
         adapter1 = new ListAdapter(this);
         adapter2 = new ListAdapter(this);
         listViewIncomplet.setAdapter(adapter1);
@@ -55,7 +59,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         progressBar = findViewById(R.id.determinateBar);
         progressBar.setVisibility(View.VISIBLE);
         ArrayList<ShoppingList> shoppingLists = new ArrayList<>();
-
+        buttonAdd = findViewById(R.id.floatingActionButton2);
         completeListText = findViewById(R.id.completed_list_id_text);
         currentListText = findViewById(R.id.current_list_id_text);
         noDataTextView = findViewById(R.id.nodData_id);
@@ -65,6 +69,19 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         this.setSupportActionBar(toolbar);
         shoppingLists = new ArrayList<>();
         providerList.getShoppingLists(provider.getUserId());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ShoppingListActivity.this, AddShoppingListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
