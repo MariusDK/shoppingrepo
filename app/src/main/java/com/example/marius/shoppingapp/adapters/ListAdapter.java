@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.marius.shoppingapp.R;
+import com.example.marius.shoppingapp.classes.Item;
 import com.example.marius.shoppingapp.classes.ShoppingList;
 
 public class ListAdapter extends ArrayAdapter<ShoppingList>{
@@ -61,4 +62,5 @@ public class ListAdapter extends ArrayAdapter<ShoppingList>{
         }
 
     }
+
 }

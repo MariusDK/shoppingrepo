@@ -37,7 +37,7 @@ public class LoginFragment extends Fragment {
         passwordInput = v.findViewById(R.id.password_login_id);
         login = v.findViewById(R.id.login_id);
         registerText = v.findViewById(R.id.register_text_id);
-        Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar_id);
+        Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar_add_sl_id);
         toolbar.setTitle(getResources().getString(R.string.loginTitle));
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
