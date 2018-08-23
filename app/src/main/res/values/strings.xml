@@ -25,4 +25,7 @@
     <string name="quantity">Quantity</string>
     <string name="addNewItem">Add new item</string>
     <string name="saveList">Save list</string>
+    <string name="title_activity_list_details">ListDetailsActivity</string>
+    <string name="details">Shopping List Name</string>
+    <string name="listStatus">List Status</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.marius.shoppingapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,14 +14,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.marius.shoppingapp.R;
+import com.example.marius.shoppingapp.activities.ListDetailsActivity;
+import com.example.marius.shoppingapp.activities.ShoppingListActivity;
 import com.example.marius.shoppingapp.classes.Item;
 import com.example.marius.shoppingapp.classes.ShoppingList;
 
 public class ListAdapter extends ArrayAdapter<ShoppingList>{
 
+    private Context context;
     public ListAdapter(Context context)
     {
         super(context, R.layout.cards_layout);
+        this.context = context;
     }
 
     @NonNull
@@ -40,10 +45,20 @@ public class ListAdapter extends ArrayAdapter<ShoppingList>{
         else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ShoppingList shoppingList = getItem(position);
+        final ShoppingList shoppingList = getItem(position);
         //Lista initializata
         holder.numeList.setText("Name: "+shoppingList.getNume());
         holder.locatieList.setText("Location: "+shoppingList.getLocation());
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(context, ListDetailsActivity.class);
+                intent.putExtra("listKey", shoppingList.getIdList());
+                context.startActivity(intent);
+
+            }
+        });
         return convertView;
     }
 
@@ -62,5 +77,7 @@ public class ListAdapter extends ArrayAdapter<ShoppingList>{
         }
 
     }
+
+
 
 }

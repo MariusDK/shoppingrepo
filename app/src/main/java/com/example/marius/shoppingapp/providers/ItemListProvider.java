@@ -1,9 +1,11 @@
 package com.example.marius.shoppingapp.providers;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.example.marius.shoppingapp.classes.Item;
 import com.example.marius.shoppingapp.classes.ShoppingList;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +24,8 @@ public class ItemListProvider {
     private String SelectedItemId;
     private String SelectedItemName;
     private getListListener listListener;
+    private getShoppingListListener listListener1;
+    private ShoppingList shoppingList;
     public ItemListProvider() {
         mDatabase = FirebaseDatabase.getInstance().getReference("shoppinglists");
         items = new ArrayList<>();
@@ -31,7 +35,11 @@ public class ItemListProvider {
         items = new ArrayList<>();
         this.listListener = listListener;
     }
-
+    public ItemListProvider(getShoppingListListener listListener1) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("shoppinglists");
+        items = new ArrayList<>();
+        this.listListener1 = listListener1;
+    }
     public String createList(String name,String location,String description, String userID)
     {
 
@@ -53,10 +61,31 @@ public class ItemListProvider {
     {
         mDatabase.child(listName).child(itemId).setValue(true);
     }
+    public void getShoppingListById(String id_list,String id_user) {
 
+        mDatabase.child(id_list).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try {
+                    if (dataSnapshot.getValue() != null) {
+                        try {
+                            ShoppingList shoppingList = dataSnapshot.getValue(ShoppingList.class);
+                            listListener1.finishGetShoppingList(shoppingList);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-
+            }
+        });
+    }
     public void getShoppingLists(String id_user)
     {
         mDatabase.orderByChild("id_user").equalTo(id_user).addValueEventListener(new ValueEventListener() {
@@ -110,5 +139,9 @@ public class ItemListProvider {
     public interface getListListener
     {
         public void finishListener(ArrayList<ShoppingList> lists);
+    }
+    public interface getShoppingListListener
+    {
+        public void finishGetShoppingList(ShoppingList shoppingList);
     }
 }

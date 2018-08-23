@@ -1,6 +1,7 @@
 package com.example.marius.shoppingapp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -69,6 +71,19 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         this.setSupportActionBar(toolbar);
         shoppingLists = new ArrayList<>();
         providerList.getShoppingLists(provider.getUserId());
+        //listViewIncomplet.setClickable(true);
+        listViewIncomplet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //int position = listViewIncomplet.getSelectedItemPosition();
+                ShoppingList shoppingList = (ShoppingList) listViewIncomplet.getItemAtPosition(i);
+                Intent intent = new Intent(ShoppingListActivity.this, ListDetailsActivity.class);
+                intent.putExtra("listKey", shoppingList.getIdList());
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     @Override
@@ -82,6 +97,8 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 finish();
             }
         });
+
+
     }
 
     @Override
