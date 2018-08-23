@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,10 +16,8 @@
             android:id="@+id/toolbar_list_page_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="9dp"
             android:background="@color/colorPrimaryDark"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/current_list_id_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,13 +26,12 @@
         <TextView
             android:id="@+id/current_list_id_text"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
 
-            android:layout_marginBottom="420dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/currentShoppingLists"
-            app:layout_constraintBottom_toTopOf="@+id/determinateBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.068"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,67 +43,52 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="516dp"
             android:clickable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
-        <ProgressBar
-            android:id="@+id/determinateBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="28dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:progress="25"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/current_list_id_text" />
+            app:srcCompat="@android:drawable/ic_input_add" />
 
         <TextView
             android:id="@+id/completed_list_id_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="264dp"
+            android:layout_height="19dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="152dp"
             android:text="@string/completedShoppingLists"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.075"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.078"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_id" />
 
         <ListView
             android:id="@+id/list_id_completed"
-            android:layout_width="363dp"
-            android:layout_height="190dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
 
-            android:layout_marginBottom="64dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="188dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/completed_list_id_text"
+            app:layout_constraintVertical_bias="0.13999999" />
 
         <ListView
             android:id="@+id/list_id"
-            android:layout_width="363dp"
-            android:layout_height="190dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
 
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_list_page_id" />
+            app:layout_constraintTop_toBottomOf="@+id/current_list_id_text" />
 
         <TextView
             android:id="@+id/nodData_id"
@@ -121,7 +103,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/toolbar_list_page_id"
-            app:layout_constraintVertical_bias="0.529" />
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ProgressBar
+            android:id="@+id/determinateBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="96dp"
+            android:progress="25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton2"
+            app:layout_constraintHorizontal_bias="0.606"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_id_completed"
+            app:layout_constraintVertical_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

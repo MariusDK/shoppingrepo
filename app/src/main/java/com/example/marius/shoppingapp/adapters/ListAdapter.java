@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.marius.shoppingapp.R;
@@ -40,21 +41,21 @@ public class ListAdapter extends ArrayAdapter<ShoppingList>{
         }
         ShoppingList shoppingList = getItem(position);
         //Lista initializata
-        holder.numeList.setText(shoppingList.getNume());
-        holder.locatieList.setText(shoppingList.getLocation());
+        holder.numeList.setText("Name: "+shoppingList.getNume());
+        holder.locatieList.setText("Location: "+shoppingList.getLocation());
         return convertView;
     }
 
 
     static class ViewHolder{
-        FloatingActionButton deleteListButton;
+        ImageButton deleteListButton;
         TextView numeList;
         TextView locatieList;
 
 
         ViewHolder(View view)
         {
-            deleteListButton = (FloatingActionButton)view.findViewById(R.id.deleteListButton);
+            deleteListButton = (ImageButton)view.findViewById(R.id.deleteListButton);
             numeList = (TextView)view.findViewById(R.id.numeListaId);
             locatieList = (TextView)view.findViewById(R.id.locatieListaId);
         }

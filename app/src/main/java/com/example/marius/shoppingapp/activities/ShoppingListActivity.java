@@ -46,7 +46,6 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         setContentView(R.layout.activity_shopping_list);
         provider = new UserProvider();
         providerList = new ItemListProvider(this);
-        //providerList.createList("list2","cluj","munte",provider.getUserId());
         listViewIncomplet = findViewById(R.id.list_id);
         listViewComplete = findViewById(R.id.list_id_completed);
         adapter1 = new ListAdapter(this);
@@ -66,9 +65,6 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         this.setSupportActionBar(toolbar);
         shoppingLists = new ArrayList<>();
         providerList.getShoppingLists(provider.getUserId());
-
-
-
     }
 
     @Override
@@ -103,7 +99,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
             completeListText.setAlpha(0.0f);
             currentListText.setAlpha(0.0f);
             noDataTextView.setAlpha(1.0f);
-            Toast toast = Toast.makeText(this,"No Data", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this,getResources().getString(R.string.noData), Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -114,11 +110,11 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
             for (ShoppingList shoppingList : shoppingLists) {
                 if (shoppingList.isStatus())
                 {
-                    adapter2.add(shoppingList);
+                    adapter1.add(shoppingList);
                 }
                 else
                 {
-                    adapter1.add(shoppingList);
+                    adapter2.add(shoppingList);
                 }
             }
         }

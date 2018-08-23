@@ -29,12 +29,10 @@ public class UserProvider {
 
 
     public UserProvider(Context context) {
-        this.mDatabase = FirebaseDatabase.getInstance().getReference("users");
         mAuth = FirebaseAuth.getInstance();
         listener = (UserListener)context;
     }
     public UserProvider() {
-        this.mDatabase = FirebaseDatabase.getInstance().getReference("users");
         mAuth = FirebaseAuth.getInstance();
     }
     public void register(String email, String password)

@@ -44,7 +44,7 @@ public class ItemListProvider {
         shoppingList.setLocation(location);
         shoppingList.setDescription(description);
         shoppingList.setId_user(userID);
-        shoppingList.setStatus(false);
+        shoppingList.setStatus(true);
         String listID = mDatabase.push().getKey();
         mDatabase.child(listID).setValue(shoppingList);
         return listID;
