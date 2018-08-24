@@ -79,6 +79,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 ShoppingList shoppingList = (ShoppingList) listViewIncomplet.getItemAtPosition(i);
                 Intent intent = new Intent(ShoppingListActivity.this, ListDetailsActivity.class);
                 intent.putExtra("listKey", shoppingList.getIdList());
+                intent.putExtra("titleShoppingList",shoppingList.getNume());
                 startActivity(intent);
                 finish();
             }

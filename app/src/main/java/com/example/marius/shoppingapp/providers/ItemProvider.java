@@ -1,5 +1,6 @@
 package com.example.marius.shoppingapp.providers;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.marius.shoppingapp.classes.Item;
@@ -15,11 +16,18 @@ public class ItemProvider {
     private DatabaseReference databaseReference;
     private ArrayList<Item> itemArrayList;
     private String id_list_selected;
+    private getItemsListener listener;
 
     public ItemProvider()
     {
         databaseReference = FirebaseDatabase.getInstance().getReference("items");
         itemArrayList = new ArrayList<>();
+    }
+    public ItemProvider(Context context)
+    {
+        databaseReference = FirebaseDatabase.getInstance().getReference("items");
+        itemArrayList = new ArrayList<>();
+        listener = (getItemsListener) context;
     }
 
     public String addItem(String ItemName, int Quantity,String ListKey)
@@ -61,10 +69,11 @@ public class ItemProvider {
     {
 
         id_list_selected = id_List;
-        databaseReference.orderByChild(id_List).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(id_List).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showDataList(dataSnapshot);
+                listener.getItemListener(itemArrayList);
             }
 
             @Override
@@ -77,12 +86,9 @@ public class ItemProvider {
     {
         for (DataSnapshot ds : snapshot.getChildren())
         {
-
-                for (DataSnapshot ds2:ds.getChildren()) {
-                    Item item = ds2.getValue(Item.class);
-                    itemArrayList.add(item);
-                    //System.out.println(item.toString());
-            }
+            Item item = ds.getValue(Item.class);
+            itemArrayList.add(item);
+            //System.out.println(item.toString());
         }
     }
 
@@ -101,5 +107,14 @@ public class ItemProvider {
             databaseReference.child(id_list).child(itemId).setValue(item);
         }
     }
+    public void deleteListItems(ArrayList<Item> items,String id_list)
+    {
+        databaseReference.child(id_list).removeValue();
+    }
+    public interface getItemsListener
+    {
+        public void getItemListener(ArrayList<Item> items);
+    }
+
 
 }
