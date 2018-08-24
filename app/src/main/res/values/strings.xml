@@ -28,4 +28,5 @@
     <string name="title_activity_list_details">ListDetailsActivity</string>
     <string name="details">Shopping List Name</string>
     <string name="listStatus">List Status</string>
+    <string name="AddShoppingList">Add new Shopping List</string>
 </resources>

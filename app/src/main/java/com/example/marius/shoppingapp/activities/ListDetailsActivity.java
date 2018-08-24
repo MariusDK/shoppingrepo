@@ -45,7 +45,7 @@ public class ListDetailsActivity extends AppCompatActivity implements ItemListPr
         toolbar.setTitle(getResources().getString(R.string.details));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//initializare id list
+
         listView = findViewById(R.id.list_items_details_id);
         locatieTextView = findViewById(R.id.id_location_details);
         descriereTextView = findViewById(R.id.id_description_details);

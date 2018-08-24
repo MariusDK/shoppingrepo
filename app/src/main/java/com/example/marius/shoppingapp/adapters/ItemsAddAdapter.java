@@ -20,17 +20,32 @@ import com.example.marius.shoppingapp.classes.ShoppingList;
 
 import java.util.ArrayList;
 
-public class ItemsAddAdapter extends ArrayAdapter<Item> {
+public class ItemsAddAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Item> list;
     private LayoutInflater inflater;
     private Item item;
     public ItemsAddAdapter(Context context, ArrayList<Item> list)
     {
-        super(context, R.layout.cards_layout_items_add, list);
         this.context = context;
         this.list = list;
     }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return list.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -46,12 +61,7 @@ public class ItemsAddAdapter extends ArrayAdapter<Item> {
         {
             holder = (ViewHolder) convertView.getTag();
         }
-        //holder.ItemName.getEditText().setText(list.get(position).getName());
-        //holder.ItemQuantity.getEditText().setText(""+list.get(position).getQuantity());
-        item = new Item();
-        holder.ItemName.getEditText().getText().toString();
-        //String quantity = holder.ItemQuantity.getEditText().getText().toString();
-
+        item = list.get(position);
         holder.ItemName.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -60,8 +70,8 @@ public class ItemsAddAdapter extends ArrayAdapter<Item> {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                list.get(position).setName(holder.ItemName.getEditText().getText().toString());
-                //item.setName(holder.ItemName.getEditText().getText().toString());
+                item.setName(charSequence.toString());
+                System.out.println(charSequence.toString());
             }
 
             @Override
@@ -77,9 +87,8 @@ public class ItemsAddAdapter extends ArrayAdapter<Item> {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                list.get(position).setQuantity(Integer.parseInt(holder.ItemQuantity.getEditText().getText().toString()));
-                //item.setQuantity(Integer.parseInt(holder.ItemQuantity.getEditText().getText().toString()));
-
+                item.setQuantity(Integer.parseInt(charSequence.toString()));
+                System.out.println(charSequence.toString());
             }
 
             @Override
@@ -87,7 +96,6 @@ public class ItemsAddAdapter extends ArrayAdapter<Item> {
 
             }
         });
-
         return convertView;
     }
 
