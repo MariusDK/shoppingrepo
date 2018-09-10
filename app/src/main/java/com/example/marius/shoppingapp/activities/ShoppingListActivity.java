@@ -100,8 +100,6 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 finish();
             }
         });
-
-
     }
 
     @Override
@@ -136,9 +134,9 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
             completeListText.setVisibility(View.INVISIBLE);
             currentListText.setVisibility(View.INVISIBLE);
             noDataTextView.setVisibility(View.VISIBLE);
-            Toast toast = Toast.makeText(this,getResources().getString(R.string.noData), Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            //Toast toast = Toast.makeText(this,getResources().getString(R.string.noData), Toast.LENGTH_LONG);
+            //toast.setGravity(Gravity.CENTER, 0, 0);
+            //toast.show();
         }
         else {
             completeListText.setVisibility(View.VISIBLE);
