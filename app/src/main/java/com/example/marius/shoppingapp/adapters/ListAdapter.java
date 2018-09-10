@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.marius.shoppingapp.R;
+import com.example.marius.shoppingapp.activities.CompletedListActivity;
 import com.example.marius.shoppingapp.activities.ListDetailsActivity;
 import com.example.marius.shoppingapp.activities.ShoppingListActivity;
 import com.example.marius.shoppingapp.classes.Item;
@@ -55,11 +56,17 @@ public class ListAdapter extends ArrayAdapter<ShoppingList>{
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(context, ListDetailsActivity.class);
-                intent.putExtra("listKey", shoppingList.getIdList());
-                context.startActivity(intent);
-
+                if (shoppingList.isStatus()) {
+                    Intent intent = new Intent(context, ListDetailsActivity.class);
+                    intent.putExtra("listKey", shoppingList.getIdList());
+                    context.startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(context, CompletedListActivity.class);
+                    intent.putExtra("listKey", shoppingList.getIdList());
+                    context.startActivity(intent);
+                }
             }
         });
         holder.deleteListButton.setOnClickListener(new View.OnClickListener() {

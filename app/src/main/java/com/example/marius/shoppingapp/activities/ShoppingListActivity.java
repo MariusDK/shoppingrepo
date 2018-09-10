@@ -76,14 +76,10 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         toolbar.setTitle(getResources().getString(R.string.listTitle));
         this.setSupportActionBar(toolbar);
         shoppingLists = new ArrayList<>();
-        adapter1.clear();
-        adapter2.clear();
         providerList.getShoppingLists(provider.getUserId());
-        //listViewIncomplet.setClickable(true);
         listViewIncomplet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //int position = listViewIncomplet.getSelectedItemPosition();
                 ShoppingList shoppingList = (ShoppingList) listViewIncomplet.getItemAtPosition(i);
                 Intent intent = new Intent(ShoppingListActivity.this, ListDetailsActivity.class);
                 intent.putExtra("listKey", shoppingList.getIdList());
