@@ -8,9 +8,11 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,25 @@ public class LoginFragment extends Fragment {
         toolbar.setTitle(getResources().getString(R.string.loginTitle));
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
+
+        passwordInput.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE)
+                {
+                    String email = emailInput.getEditText().getText().toString();
+                    String password = passwordInput.getEditText().getText().toString();
+                    if (email.equals("")||password.equals(""))
+                    {
+                        Toast.makeText(getActivity(),getResources().getString(R.string.emptyLogin),Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        loginListener.onClickLoginListener(email, password);
+                    }
+                }
+                return false;
+            }
+        });
         return v;
     }
 

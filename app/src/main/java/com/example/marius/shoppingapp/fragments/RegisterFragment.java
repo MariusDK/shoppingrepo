@@ -8,10 +8,13 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.marius.shoppingapp.R;
@@ -46,6 +49,32 @@ public class RegisterFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        confirmInput.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE)
+                {
+                    String email = emailInput.getEditText().getText().toString();
+                    String password = passwordInput.getEditText().getText().toString();
+                    String confirm = confirmInput.getEditText().getText().toString();
+                    if ((email.equals("")||password.equals(""))||confirm.equals("")) {
+                        Toast.makeText(getActivity(),getResources().getString(R.string.emptyRegister),Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        if (checkIfPasswordMatch(password, confirm)) {
+                            listener.onClickRegisterListener(email, password);
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(),"Passwords don't match!",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                return false;
+            }
+        });
 
         return v;
     }
