@@ -29,4 +29,7 @@
     <string name="details">Shopping List Name</string>
     <string name="listStatus">List Status</string>
     <string name="AddShoppingList">Add new Shopping List</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

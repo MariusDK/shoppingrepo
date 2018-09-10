@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +23,18 @@ import com.example.marius.shoppingapp.classes.ShoppingList;
 public class ListAdapter extends ArrayAdapter<ShoppingList>{
 
     private Context context;
+    private deleteItemListener deleteItemListener;
     public ListAdapter(Context context)
     {
         super(context, R.layout.cards_layout);
         this.context = context;
+        deleteItemListener = (deleteItemListener)context;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        final ViewHolder holder;
 
         if (convertView == null)
         {
@@ -59,6 +62,12 @@ public class ListAdapter extends ArrayAdapter<ShoppingList>{
 
             }
         });
+        holder.deleteListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteItemListener.deleteItemOnClick(shoppingList.getIdList(),shoppingList.getNume());
+            }
+        });
         return convertView;
     }
 
@@ -76,6 +85,10 @@ public class ListAdapter extends ArrayAdapter<ShoppingList>{
             locatieList = (TextView)view.findViewById(R.id.locatieListaId);
         }
 
+    }
+    public interface deleteItemListener
+    {
+        public void deleteItemOnClick(String id_list, String list_name);
     }
 
 

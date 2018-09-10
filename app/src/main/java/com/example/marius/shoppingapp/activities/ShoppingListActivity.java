@@ -1,9 +1,11 @@
 package com.example.marius.shoppingapp.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,7 +30,7 @@ import com.example.marius.shoppingapp.providers.UserProvider;
 
 import java.util.ArrayList;
 
-public class ShoppingListActivity extends AppCompatActivity implements ItemListProvider.getListListener {
+public class ShoppingListActivity extends AppCompatActivity implements ItemListProvider.getListListener, ListAdapter.deleteItemListener {
     private ListView listViewIncomplet;
     private UserProvider provider;
     private ListView listViewComplete;
@@ -42,6 +45,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
     private TextView noDataTextView;
     private FragmentManager fragmentManager;
     private ItemListProvider providerList;
+    private ImageButton deleteListItem;
 
     ArrayList<ShoppingList> shoppingLists;
     @Override
@@ -72,6 +76,8 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         toolbar.setTitle(getResources().getString(R.string.listTitle));
         this.setSupportActionBar(toolbar);
         shoppingLists = new ArrayList<>();
+        adapter1.clear();
+        adapter2.clear();
         providerList.getShoppingLists(provider.getUserId());
         //listViewIncomplet.setClickable(true);
         listViewIncomplet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -153,5 +159,33 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 }
             }
         }
+    }
+
+    @Override
+    public void deleteItemOnClick(final String id_list, String list_name) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete the " + list_name +" list?").setTitle(R.string.delete);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                providerList.deleteList(id_list);
+                adapter1.clear();
+                adapter1.notifyDataSetChanged();
+                adapter2.clear();
+                adapter2.notifyDataSetChanged();
+                //providerList.getShoppingLists(provider.getUserId());
+//                finish();
+//                startActivity(getIntent());
+                //providerList.getShoppingLists(provider.getUserId());
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
