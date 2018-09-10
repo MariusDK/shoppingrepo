@@ -65,6 +65,8 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         completeListText = findViewById(R.id.completed_list_id_text);
         currentListText = findViewById(R.id.current_list_id_text);
         noDataTextView = findViewById(R.id.nodData_id);
+        completeListText.setVisibility(View.INVISIBLE);
+        currentListText.setVisibility(View.INVISIBLE);
         noDataTextView.setVisibility(View.INVISIBLE);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_list_page_id);
         toolbar.setTitle(getResources().getString(R.string.listTitle));
