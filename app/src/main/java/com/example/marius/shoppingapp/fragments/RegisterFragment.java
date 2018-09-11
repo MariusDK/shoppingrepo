@@ -45,8 +45,7 @@ public class RegisterFragment extends Fragment {
 
 
         Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar_register_id);
-        toolbar.setTitle(getResources().getString(R.string.registerTitle));
-
+        toolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

@@ -73,7 +73,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         currentListText.setVisibility(View.INVISIBLE);
         noDataTextView.setVisibility(View.INVISIBLE);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_list_page_id);
-        toolbar.setTitle(getResources().getString(R.string.listTitle));
+        toolbar.setTitle("");
         this.setSupportActionBar(toolbar);
         shoppingLists = new ArrayList<>();
         providerList.getShoppingLists(provider.getUserId());
@@ -133,9 +133,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
             completeListText.setVisibility(View.INVISIBLE);
             currentListText.setVisibility(View.INVISIBLE);
             noDataTextView.setVisibility(View.VISIBLE);
-            //Toast toast = Toast.makeText(this,getResources().getString(R.string.noData), Toast.LENGTH_LONG);
-            //toast.setGravity(Gravity.CENTER, 0, 0);
-            //toast.show();
+
         }
         else {
             completeListText.setVisibility(View.VISIBLE);
@@ -166,10 +164,6 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 adapter1.notifyDataSetChanged();
                 adapter2.clear();
                 adapter2.notifyDataSetChanged();
-                //providerList.getShoppingLists(provider.getUserId());
-//                finish();
-//                startActivity(getIntent());
-                //providerList.getShoppingLists(provider.getUserId());
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

@@ -103,8 +103,11 @@ public class ItemProvider {
     {
         for (Item item:items)
         {
-            String itemId = databaseReference.push().getKey();
-            databaseReference.child(id_list).child(itemId).setValue(item);
+            if (((item.getQuantity()!=0))&&(!item.getName().equals(""))) {
+                String itemId = databaseReference.push().getKey();
+
+                databaseReference.child(id_list).child(itemId).setValue(item);
+            }
         }
     }
     public void deleteListItems(ArrayList<Item> items,String id_list)

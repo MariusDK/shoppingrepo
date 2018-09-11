@@ -25,13 +25,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
     private UserProvider provider;
     private ItemListProvider itemListProvider;
     private ItemProvider itemProvider;
-
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -21,15 +21,37 @@ import com.example.marius.shoppingapp.activities.ShoppingListActivity;
 import com.example.marius.shoppingapp.classes.Item;
 import com.example.marius.shoppingapp.classes.ShoppingList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListAdapter extends ArrayAdapter<ShoppingList>{
 
     private Context context;
     private deleteItemListener deleteItemListener;
+    private List<ShoppingList> lists = new ArrayList<>();
     public ListAdapter(Context context)
     {
         super(context, R.layout.cards_layout);
         this.context = context;
         deleteItemListener = (deleteItemListener)context;
+    }
+
+
+    @Override
+    public void add(@Nullable ShoppingList object) {
+        lists.add(object);
+        super.add(object);
+    }
+
+    @Override
+    public int getCount() {
+        return lists.size();
+    }
+
+    @Nullable
+    @Override
+    public ShoppingList getItem(int position) {
+        return lists.get(position);
     }
 
     @NonNull

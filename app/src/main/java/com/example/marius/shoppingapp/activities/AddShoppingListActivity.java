@@ -51,10 +51,6 @@ public class AddShoppingListActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextInputLayout numeInput;
     private TextInputLayout cantitateInput;
-    private int i=0;
-
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,10 +76,6 @@ public class AddShoppingListActivity extends AppCompatActivity {
         provider = new UserProvider();
         listProvider= new ItemListProvider();
     }
-
-
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -121,7 +113,21 @@ public class AddShoppingListActivity extends AppCompatActivity {
                     System.out.println(itemQuantity);
                     Item item = new Item();
                     item.setName(itemName);
-                    item.setQuantity(Integer.parseInt(itemQuantity));
+
+                    if (!itemQuantity.equals("")) {
+                        try
+                        {
+                            item.setQuantity(Integer.parseInt(itemQuantity));
+                        }
+                        catch (NumberFormatException nfe)
+                        {
+                            Toast.makeText(AddShoppingListActivity.this,"Invalid Quantity format! ",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        item.setQuantity(0);
+                    }
                     items.add(item);
                 }
                 itemProvider.addListItems(items,id_list);
