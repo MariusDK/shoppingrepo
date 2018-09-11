@@ -118,10 +118,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
             case R.id.sort_id:
                 break;
             case R.id.logout_id:
-                provider.signOut();
-                Intent intent = new Intent(this,MainActivity.class);
-                startActivity(intent);
-                finish();
+                logoutDialog();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -173,6 +170,29 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
 //                finish();
 //                startActivity(getIntent());
                 //providerList.getShoppingLists(provider.getUserId());
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void logoutDialog()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.logoutMessage).setTitle("Logout");
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                provider.signOut();
+                Intent intent = new Intent(ShoppingListActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
