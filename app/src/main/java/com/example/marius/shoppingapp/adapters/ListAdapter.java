@@ -120,6 +120,9 @@ public class ListAdapter extends ArrayAdapter<ShoppingList>{
         public void deleteItemOnClick(String id_list, String list_name);
     }
 
-
-
+    @Override
+    public void clear() {
+        super.clear();
+        lists.clear();
+    }
 }

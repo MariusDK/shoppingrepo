@@ -3,19 +3,28 @@ package com.example.marius.shoppingapp.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,9 +33,11 @@ import android.widget.Toast;
 import com.example.marius.shoppingapp.R;
 import com.example.marius.shoppingapp.adapters.ListAdapter;
 
+import com.example.marius.shoppingapp.classes.Item;
 import com.example.marius.shoppingapp.classes.ShoppingList;
 import com.example.marius.shoppingapp.providers.ItemListProvider;
 import com.example.marius.shoppingapp.providers.UserProvider;
+import com.example.marius.shoppingapp.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -46,13 +57,15 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
     private FragmentManager fragmentManager;
     private ItemListProvider providerList;
     private ImageButton deleteListItem;
-
+    private ArrayList<ShoppingList> listCompleta;
+    private ArrayList<ShoppingList> listInCompleta;
     ArrayList<ShoppingList> shoppingLists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
-
+        InCompletedList = new ArrayList<>();
+        CompletedList = new ArrayList<>();
         provider = new UserProvider();
         fragmentManager = getSupportFragmentManager();
         providerList = new ItemListProvider(this);
@@ -76,7 +89,12 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         toolbar.setTitle("");
         this.setSupportActionBar(toolbar);
         shoppingLists = new ArrayList<>();
+        adapter2.clear();
+        adapter1.clear();
         providerList.getShoppingLists(provider.getUserId());
+
+
+
         listViewIncomplet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -86,6 +104,41 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 intent.putExtra("titleShoppingList",shoppingList.getNume());
                 startActivity(intent);
                 finish();
+            }
+        });
+        listViewComplete.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int action = motionEvent.getAction();
+                switch (action)
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        view.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                }
+                view.onTouchEvent(motionEvent);
+                return true;
+            }
+        });
+
+        listViewIncomplet.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int action = motionEvent.getAction();
+                switch (action)
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        view.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                }
+                view.onTouchEvent(motionEvent);
+                return true;
             }
         });
 
@@ -102,6 +155,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 finish();
             }
         });
+
     }
 
     @Override
@@ -128,6 +182,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
     @Override
     public void finishListener(ArrayList<ShoppingList> lists) {
         progressBar.setVisibility(View.INVISIBLE);
+
         shoppingLists = lists;
         if (shoppingLists.isEmpty()) {
             completeListText.setVisibility(View.INVISIBLE);
@@ -146,10 +201,13 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 }
                 else
                 {
-                    adapter2.add(shoppingList);
+                      adapter2.add(shoppingList);
                 }
+
             }
         }
+        UIUtils.setListViewHeightBasedOnItems(listViewComplete);
+        UIUtils.setListViewHeightBasedOnItems(listViewIncomplet);
     }
 
     @Override
@@ -164,6 +222,8 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 adapter1.notifyDataSetChanged();
                 adapter2.clear();
                 adapter2.notifyDataSetChanged();
+//                UIUtils.setListViewHeightBasedOnItems(listViewComplete);
+//                UIUtils.setListViewHeightBasedOnItems(listViewIncomplet);
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -197,5 +257,25 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+
+    public void setDataTOCardViewList(ShoppingList i)
+    {
+        CardView cardView = (CardView) listViewComplete.getChildAt(CompletedList.indexOf(i));
+        ConstraintLayout constraintLayout = (ConstraintLayout) cardView.getChildAt(0);
+        TextView TextItemName = (TextView) constraintLayout.getChildAt(0);
+        TextView TextItemLocation = (TextView) constraintLayout.getChildAt(1);
+        TextItemName.setText(i.getNume());
+        TextItemLocation.setText(i.getLocation());
+    }
+    public void setDataTOCardViewListIN(ShoppingList i)
+    {
+        CardView cardView = (CardView) listViewIncomplet.getChildAt(InCompletedList.indexOf(i));
+        ConstraintLayout constraintLayout = (ConstraintLayout) cardView.getChildAt(0);
+        TextView TextItemName = (TextView) constraintLayout.getChildAt(0);
+        TextView TextItemLocation = (TextView) constraintLayout.getChildAt(1);
+        TextItemName.setText(i.getNume());
+        TextItemLocation.setText(i.getLocation());
     }
 }
