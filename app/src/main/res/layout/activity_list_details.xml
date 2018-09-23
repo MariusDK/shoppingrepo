@@ -15,7 +15,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@android:color/white">
+        app:titleTextColor="@android:color/white"
+        android:theme="@style/ToolbarTheme">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,6 +43,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:textColor="@android:color/white"
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 app:layout_constraintBottom_toBottomOf="parent"

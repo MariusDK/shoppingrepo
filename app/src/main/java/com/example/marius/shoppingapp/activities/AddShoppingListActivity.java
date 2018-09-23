@@ -131,6 +131,9 @@ public class AddShoppingListActivity extends AppCompatActivity {
                     items.add(item);
                 }
                 itemProvider.addListItems(items,id_list);
+                Intent intent = new Intent(AddShoppingListActivity.this,ShoppingListActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
