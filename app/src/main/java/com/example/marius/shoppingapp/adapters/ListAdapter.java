@@ -20,8 +20,12 @@ import com.example.marius.shoppingapp.activities.ListDetailsActivity;
 import com.example.marius.shoppingapp.activities.ShoppingListActivity;
 import com.example.marius.shoppingapp.classes.Item;
 import com.example.marius.shoppingapp.classes.ShoppingList;
+import com.example.marius.shoppingapp.utils.ChronologicalComparator;
+import com.example.marius.shoppingapp.utils.LocationComparator;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class ListAdapter extends ArrayAdapter<ShoppingList>{
@@ -124,5 +128,18 @@ public class ListAdapter extends ArrayAdapter<ShoppingList>{
     public void clear() {
         super.clear();
         lists.clear();
+    }
+    public void ordChronological()
+    {
+        Collections.sort(lists, new ChronologicalComparator());
+    }
+    public void ordNonChronological()
+    {
+        ordChronological();
+        Collections.reverse(lists);
+    }
+    public void ordLocation()
+    {
+        Collections.sort(lists, new LocationComparator());
     }
 }

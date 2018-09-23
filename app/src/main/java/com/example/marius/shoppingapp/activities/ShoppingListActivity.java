@@ -27,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
     private ArrayList<ShoppingList> listCompleta;
     private ArrayList<ShoppingList> listInCompleta;
     ArrayList<ShoppingList> shoppingLists;
+    private int option=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,6 +172,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         switch (item.getItemId())
         {
             case R.id.sort_id:
+                createSortDialog();
                 break;
             case R.id.logout_id:
                 logoutDialog();
@@ -177,7 +180,67 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         return super.onOptionsItemSelected(item);
     }
 
+    public void createSortDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_sort,null);
+        builder.setTitle("Sorting methods");
+        builder.setView(view);
+        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (option==1)
+                {
+                    adapter1.ordChronological();
+                    adapter1.notifyDataSetChanged();
+                    adapter2.ordChronological();
+                    adapter2.notifyDataSetChanged();
+                }
+                if (option==2)
+                {
+                    adapter1.ordNonChronological();
+                    adapter1.notifyDataSetChanged();
+                    adapter2.ordNonChronological();
+                    adapter2.notifyDataSetChanged();
+                }
+                if (option==3)
+                {
+                    adapter1.ordLocation();
+                    adapter1.notifyDataSetChanged();
+                    adapter2.ordLocation();
+                    adapter2.notifyDataSetChanged();
+                }
 
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
+    }
+    public void handleRadioButtons(View view)
+    {
+        boolean checked = ((RadioButton) view).isChecked();
+
+            switch (view.getId()) {
+                case R.id.radioButton1:
+                    if (checked)
+                        option = 1;
+                        break;
+                case R.id.radioButton2:
+                    if (checked)
+                        option = 2;
+                        break;
+                case R.id.radioButton3:
+                    if (checked)
+                        option = 3;
+                        break;
+            }
+
+    }
 
     @Override
     public void finishListener(ArrayList<ShoppingList> lists) {
@@ -201,7 +264,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 }
                 else
                 {
-                      adapter2.add(shoppingList);
+                    adapter2.add(shoppingList);
                 }
 
             }
