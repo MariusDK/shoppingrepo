@@ -19,6 +19,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@android:color/white">
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_person_add_black_24dp"
+            android:id="@+id/addFriend"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

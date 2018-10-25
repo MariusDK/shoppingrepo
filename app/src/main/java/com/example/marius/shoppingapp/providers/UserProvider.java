@@ -5,7 +5,10 @@ import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+
+import com.example.marius.shoppingapp.classes.ShoppingList;
 import com.example.marius.shoppingapp.classes.User;
+import com.example.marius.shoppingapp.classes.UserData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,24 +21,34 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executor;
 
 public class UserProvider {
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+    private String Search_userId;
     private String userId;
     private UserListener listener;
+    private getUserListener getUserListener;
 
 
     public UserProvider(Context context) {
         mAuth = FirebaseAuth.getInstance();
+
         listener = (UserListener)context;
     }
+
     public UserProvider() {
         mAuth = FirebaseAuth.getInstance();
     }
-    public void register(String email, String password)
+
+    public void setContext(Context context)
+    {
+        getUserListener = (getUserListener)context;
+    }
+    public void register(final String email, String password)
     {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -44,6 +57,12 @@ public class UserProvider {
                         if (task.isSuccessful())
                         {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                            String id_user = mDatabase.push().getKey();
+                            UserData userData = new UserData();
+                            userData.setEmail(email);
+                            userData.setId_user(getUserId());
+                            mDatabase.child(id_user).setValue(userData);
                             userId = user.getProviderId();
                             System.out.println(user.getEmail());
                             listener.OnSuccesListener();
@@ -93,5 +112,40 @@ public class UserProvider {
         public void OnSuccesListener();
         public void OnFailListener(String msg);
 
+    }
+    public String getCurrentUserEmail()
+    {
+        return mAuth.getCurrentUser().getEmail();
+    }
+    public void getRequestUserId(String email)
+    {
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase.orderByChild("email").equalTo(email).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showDataList(dataSnapshot);
+                getUserListener.finishGetUserIdListener(Search_userId);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public void showDataList(DataSnapshot dataSnapshot)
+    {
+
+        for (DataSnapshot ds : dataSnapshot.getChildren())
+        {
+
+            UserData data =  ds.getValue(UserData.class);
+            Search_userId = data.getId_user();
+            System.out.println("Aici este "+ Search_userId);
+        }
+    }
+    public interface getUserListener
+    {
+        public void finishGetUserIdListener(String id_user);
     }
 }

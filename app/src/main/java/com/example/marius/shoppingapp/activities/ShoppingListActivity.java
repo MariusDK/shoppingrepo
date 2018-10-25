@@ -3,6 +3,7 @@ package com.example.marius.shoppingapp.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -36,13 +37,21 @@ import com.example.marius.shoppingapp.adapters.ListAdapter;
 
 import com.example.marius.shoppingapp.classes.Item;
 import com.example.marius.shoppingapp.classes.ShoppingList;
+import com.example.marius.shoppingapp.providers.FriendsProvider;
+
 import com.example.marius.shoppingapp.providers.ItemListProvider;
 import com.example.marius.shoppingapp.providers.UserProvider;
 import com.example.marius.shoppingapp.utils.UIUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ShoppingListActivity extends AppCompatActivity implements ItemListProvider.getListListener, ListAdapter.deleteItemListener {
+public class ShoppingListActivity extends AppCompatActivity implements ItemListProvider.getListListener, ListAdapter.deleteItemListener, UserProvider.getUserListener {
     private ListView listViewIncomplet;
     private UserProvider provider;
     private ListView listViewComplete;
@@ -62,6 +71,11 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
     private ArrayList<ShoppingList> listInCompleta;
     ArrayList<ShoppingList> shoppingLists;
     private int option=0;
+    private ImageButton addFriendButton;
+    private FriendsProvider friendsProvider;
+    private FirebaseFirestore mFirestone;
+    private String SearchIdUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +83,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         InCompletedList = new ArrayList<>();
         CompletedList = new ArrayList<>();
         provider = new UserProvider();
+        friendsProvider = new FriendsProvider();
         fragmentManager = getSupportFragmentManager();
         providerList = new ItemListProvider(this);
         listViewIncomplet = findViewById(R.id.list_id);
@@ -84,6 +99,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         completeListText = findViewById(R.id.completed_list_id_text);
         currentListText = findViewById(R.id.current_list_id_text);
         noDataTextView = findViewById(R.id.nodData_id);
+        addFriendButton = findViewById(R.id.addFriend);
         completeListText.setVisibility(View.INVISIBLE);
         currentListText.setVisibility(View.INVISIBLE);
         noDataTextView.setVisibility(View.INVISIBLE);
@@ -95,7 +111,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         adapter1.clear();
         providerList.getShoppingLists(provider.getUserId());
 
-
+        mFirestone = FirebaseFirestore.getInstance();
 
         listViewIncomplet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -157,6 +173,12 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
                 finish();
             }
         });
+        addFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createAddFriendDialog();
+            }
+        });
 
     }
 
@@ -179,7 +201,33 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         }
         return super.onOptionsItemSelected(item);
     }
+    public void createAddFriendDialog()
+    {
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_add,null);
+        final EditText editText = view.findViewById(R.id.friendEmail);
+        builder.setTitle("Add Friend");
+        builder.setView(view);
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                progressBar.setVisibility(View.VISIBLE);
+                String email = editText.getText().toString();
+                provider.setContext(ShoppingListActivity.this);
+                provider.getRequestUserId(email);
+                //friendsProvider.requestToFriend(email,provider.getCurrentUserEmail());
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
+    }
     public void createSortDialog()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -340,5 +388,27 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
         TextView TextItemLocation = (TextView) constraintLayout.getChildAt(1);
         TextItemName.setText(i.getNume());
         TextItemLocation.setText(i.getLocation());
+    }
+
+    @Override
+    public void finishGetUserIdListener(String id_user) {
+        SearchIdUser = id_user;
+        Map<String,Object> notificationMessage = new HashMap<>();
+        notificationMessage.put("message", provider.getCurrentUserEmail());
+        notificationMessage.put("from", provider.getUserId());
+
+        mFirestone.collection("Users/"+SearchIdUser+"/Notifications").add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(ShoppingListActivity.this,"Notification Sent",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ShoppingListActivity.this,"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 }
