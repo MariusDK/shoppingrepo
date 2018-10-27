@@ -10,18 +10,27 @@ import com.example.marius.shoppingapp.classes.ShoppingList;
 import com.example.marius.shoppingapp.classes.User;
 import com.example.marius.shoppingapp.classes.UserData;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 public class UserProvider {
@@ -32,11 +41,13 @@ public class UserProvider {
     private String userId;
     private UserListener listener;
     private getUserListener getUserListener;
+    private FirebaseFirestore mFirestore;
+    private String token_id;
 
 
     public UserProvider(Context context) {
         mAuth = FirebaseAuth.getInstance();
-
+        mFirestore = FirebaseFirestore.getInstance();
         listener = (UserListener)context;
     }
 
@@ -85,11 +96,26 @@ public class UserProvider {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful())
                 {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    userId = user.getProviderId();
-                    System.out.println(user.getEmail());
-                    listener.OnSuccesListener();
-                }
+
+
+                    userId = mAuth.getCurrentUser().getUid();
+
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( new OnSuccessListener<InstanceIdResult>() {
+                        @Override
+                        public void onSuccess(InstanceIdResult instanceIdResult) {
+                            token_id = instanceIdResult.getToken();
+
+                        }
+                    });
+                    Map<String, Object> tokenMap = new HashMap<>();
+                    tokenMap.put("token_id",token_id);
+                    mFirestore.collection("Users").document(userId).update(tokenMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    listener.OnSuccesListener(); }
+                            });
+                            //listener.OnSuccesListener();
+                        }
                 else {
                     FirebaseAuthException e = (FirebaseAuthException)task.getException();
                     System.out.println("Eroarea este: "+e.getMessage());
@@ -101,6 +127,17 @@ public class UserProvider {
     }
     public void signOut()
     {
+        userId = mAuth.getCurrentUser().getUid();
+        mFirestore = FirebaseFirestore.getInstance();
+        Map<String,Object> tokenMapRemove = new HashMap<>();
+        tokenMapRemove.put("token_id", FieldValue.delete());
+        mFirestore.collection("Users").document(userId).update(tokenMapRemove).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                mAuth.signOut();
+            }
+        });
+        //de eliminat
         mAuth.signOut();
     }
 

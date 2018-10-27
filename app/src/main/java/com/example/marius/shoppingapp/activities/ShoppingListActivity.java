@@ -75,6 +75,7 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
     private FriendsProvider friendsProvider;
     private FirebaseFirestore mFirestone;
     private String SearchIdUser;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,9 +215,11 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email = editText.getText().toString();
+                email = editText.getText().toString();
                 provider.setContext(ShoppingListActivity.this);
                 provider.getRequestUserId(email);
+
+
                 //friendsProvider.requestToFriend(email,provider.getCurrentUserEmail());
             }
         });
@@ -393,6 +396,11 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
     @Override
     public void finishGetUserIdListener(String id_user) {
         SearchIdUser = id_user;
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        Map<String,Object> userData = new HashMap<>();
+        userData.put("email",email);
+        firebaseFirestore.collection("Users").document(id_user).update(userData);
+
         Map<String,Object> notificationMessage = new HashMap<>();
         notificationMessage.put("message", provider.getCurrentUserEmail());
         notificationMessage.put("from", provider.getUserId());
