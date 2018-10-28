@@ -29,4 +29,9 @@
     <string name="details">Shopping List Name</string>
     <string name="listStatus">List Status</string>
     <string name="AddShoppingList">Add new Shopping List</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="logoutMessage">Are you sure you want to logout?</string>
+    <string name="default_notification_channel_id">Tvac_CH_01</string>
 </resources>
