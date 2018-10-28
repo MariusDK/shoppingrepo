@@ -1,5 +1,6 @@
 package com.example.marius.shoppingapp.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -7,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -54,6 +57,7 @@ public class ListDetailsActivity extends AppCompatActivity implements ItemListPr
     private TextInputEditText cantitateInput;
     private ProgressBar progressBar;
     private Toolbar toolbar;
+    private ImageButton deleteButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,11 +79,11 @@ public class ListDetailsActivity extends AppCompatActivity implements ItemListPr
         aSwitch = findViewById(R.id.switch1);
         progressBar = findViewById(R.id.progressBar_details);
         textView = findViewById(R.id.titlu_id);
+        deleteButton = findViewById(R.id.deleteListDetails);
         progressBar.setVisibility(View.INVISIBLE);
         userProvider = new UserProvider();
         itemListProvider = new ItemListProvider(this);
 
-        System.out.println(id_list);
         itemListProvider.getShoppingListById(id_list,userProvider.getUserId());
         Item item;
         items = new ArrayList<>();
@@ -165,8 +169,35 @@ public class ListDetailsActivity extends AppCompatActivity implements ItemListPr
                 finish();
             }
         });
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteList();
+                    }
+                });
     }
 
+    public void deleteList() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete the " + ShoppingListTitle +" list?").setTitle(R.string.delete);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                itemListProvider.deleteList(id_list);
+                Intent intent = new Intent(ListDetailsActivity.this,ShoppingListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     @Override
     public void finishGetShoppingList(ShoppingList shoppingList) {
         ShoppingListTitle = shoppingList.getNume();
@@ -174,8 +205,8 @@ public class ListDetailsActivity extends AppCompatActivity implements ItemListPr
         //getSupportActionBar().setTitle(ShoppingListTitle);
         //this.setSupportActionBar(toolbar);
         textView.setText(shoppingList.getNume());
-        locatieTextView.setText(shoppingList.getLocation());
-        descriereTextView.setText(shoppingList.getDescription());
+        locatieTextView.setText("Location: "+shoppingList.getLocation());
+        descriereTextView.setText("Description: "+shoppingList.getDescription());
     }
     public void setDataTOCardView(Item i)
     {

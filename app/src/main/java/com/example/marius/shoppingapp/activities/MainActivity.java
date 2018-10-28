@@ -16,6 +16,7 @@ import com.example.marius.shoppingapp.providers.ItemProvider;
 import com.example.marius.shoppingapp.providers.UserProvider;
 import com.example.marius.shoppingapp.fragments.LoginFragment;
 import com.example.marius.shoppingapp.fragments.RegisterFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.onLoginListener, UserProvider.UserListener, RegisterFragment.onRegisterListener{
     private FragmentManager fragmentManager;
@@ -24,23 +25,24 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.onL
     private UserProvider provider;
     private ItemListProvider itemListProvider;
     private ItemProvider itemProvider;
-
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         provider = new UserProvider(this);
         registerFragment = new RegisterFragment();
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null)
+        {
+            Intent intent = new Intent(MainActivity.this,ShoppingListActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+
         loginFragment = new LoginFragment();
         fragmentTransaction.add(R.id.continer,loginFragment);
         fragmentTransaction.commit();

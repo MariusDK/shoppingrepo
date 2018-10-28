@@ -127,7 +127,13 @@ public class ItemListProvider {
         mDatabase.child(listName).child("status").setValue(value);
 
     }
+    public void deleteList(String id_list)
+    {
 
+        mDatabase.child(id_list).removeValue();
+        mDatabase.getParent().child("items").child(id_list).removeValue();
+
+    }
     public ArrayList<ShoppingList> getLists() {
         return lists;
     }

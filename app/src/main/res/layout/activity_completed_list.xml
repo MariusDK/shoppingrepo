@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_listDetails"
+        android:id="@+id/toolbar_compListBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
@@ -15,15 +15,14 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@android:color/white"
-        android:theme="@style/ToolbarTheme">
+        app:titleTextColor="@android:color/white">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/deleteListDetails"
+                android:id="@+id/deleteListComp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -36,18 +35,17 @@
                 app:srcCompat="@drawable/ic_delete_button" />
 
             <TextView
-                android:id="@+id/titlu_id"
+                android:id="@+id/titlu_comp_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:textColor="@android:color/white"
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/deleteListDetails"
+                app:layout_constraintEnd_toStartOf="@+id/deleteListComp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
@@ -62,18 +60,18 @@
         app:layout_constraintHorizontal_bias="1.0"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_listDetails">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_compListBar">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_listDetails">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_compListBar">
 
 
             <TextView
-                android:id="@+id/id_location_details"
+                android:id="@+id/id_location_comp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -83,14 +81,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/id_description_details"
+                android:id="@+id/id_description_comp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text=""
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_location_details" />
+                app:layout_constraintTop_toBottomOf="@+id/id_location_comp" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -100,56 +98,11 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/items"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_description_details" />
-
-            <Button
-                android:id="@+id/add_new_item_details_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/addNewItem"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/list_items_details_id" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="104dp"
-                android:text="@string/listStatus"
-                app:layout_constraintEnd_toStartOf="@+id/switch1"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/list_items_details_id" />
-
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/add_new_item_details_id" />
-
-            <Button
-                android:id="@+id/save_list_details_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="208dp"
-                android:text="@string/saveList"
-                app:layout_constraintEnd_toStartOf="@+id/switch1"
-                app:layout_constraintHorizontal_bias="0.438"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
-                app:layout_constraintTop_toBottomOf="@+id/list_items_details_id" />
+                app:layout_constraintTop_toBottomOf="@+id/id_description_comp" />
 
 
             <LinearLayout
-                android:id="@+id/list_items_details_id"
+                android:id="@+id/list_items_comp_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -162,20 +115,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView3">
 
             </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/progressBar_details"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 
