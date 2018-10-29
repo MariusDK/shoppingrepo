@@ -29,22 +29,34 @@ public class FriendRequestService extends FirebaseMessagingService {
         {
             String messageTitle = remoteMessage.getNotification().getTitle();
             String messageBody = remoteMessage.getNotification().getBody();
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(messageTitle)
-                    .setContentText(messageBody)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-            int notificationId = (int) System.currentTimeMillis();
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(notificationId,mBuilder.build());
+            createNotification(messageBody,messageTitle);
         }
     }
-    public void createNotification(String body)
+    public void createNotification(String messageBody, String messageTitle)
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(messageTitle)
+                .setContentText(messageBody)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Intent yesReceiver = new Intent();
+        yesReceiver.putExtra("email",messageBody);
+        yesReceiver.setAction("YES_ACTION");
+        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.addAction(R.drawable.ic_check_black_24dp,"Accept",pendingIntentYes);
+
+        Intent noReceiver = new Intent();
+        noReceiver.setAction("NO_ACTION");
+        PendingIntent pendingIntentNo = PendingIntent.getBroadcast(this, 12345, noReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.addAction(R.drawable.ic_close_black_24dp,"Decline",pendingIntentNo);
+
+
+        //int notificationId = (int) System.currentTimeMillis();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(R.id.addFriendNotificationId,mBuilder.build());
     }
 
     @Override
