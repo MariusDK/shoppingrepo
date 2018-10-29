@@ -61,7 +61,7 @@ public class CompletedListActivity extends AppCompatActivity implements ItemList
         userProvider = new UserProvider();
         itemListProvider = new ItemListProvider(this);
 
-        itemListProvider.getShoppingListById(id_list,userProvider.getUserId());
+        itemListProvider.getShoppingListById(id_list);
         provider = new ItemProvider(this);
         provider.getItems(id_list);
         provider.getItemArrayList();

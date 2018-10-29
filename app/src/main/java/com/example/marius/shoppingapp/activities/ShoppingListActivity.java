@@ -197,8 +197,14 @@ public class ShoppingListActivity extends AppCompatActivity implements ItemListP
             case R.id.sort_id:
                 createSortDialog();
                 break;
+            case R.id.friendList_id:
+                Intent intent = new Intent(this,FriendListActivity.class);
+                startActivity(intent);
+                finish();
+                break;
             case R.id.logout_id:
                 logoutDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -57,11 +57,11 @@ public class ItemListProvider {
         mDatabase.child(listID).setValue(shoppingList);
         return listID;
     }
-    public void addItemToList(String listName, String itemId,String id_user)
+    public void addItemToList(String listName, String itemId)
     {
         mDatabase.child(listName).child(itemId).setValue(true);
     }
-    public void getShoppingListById(String id_list,String id_user) {
+    public void getShoppingListById(String id_list) {
 
         mDatabase.child(id_list).addValueEventListener(new ValueEventListener() {
             @Override

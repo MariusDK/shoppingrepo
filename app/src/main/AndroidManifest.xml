@@ -29,21 +29,21 @@
         <activity android:name=".activities.CompletedListActivity" />
 
         <service android:name=".services.FriendRequestService">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-        </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
         </service>
 
         <receiver android:name=".broadcastReciver.AddFriendReciver">
             <intent-filter>
-                <action android:name="YES_ACTION"/>
-                <action android:name="NO_ACTION"/>
+                <action android:name="YES_ACTION" />
+                <action android:name="NO_ACTION" />
             </intent-filter>
         </receiver>
+
         <meta-data
-            android:name= "com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_person_add_black_24dp"
-            />
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_person_add_black_24dp" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
@@ -51,6 +51,7 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
+        <activity android:name=".activities.FriendListActivity"></activity>
     </application>
 
 </manifest>

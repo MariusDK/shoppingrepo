@@ -4,22 +4,23 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class UserData {
-    private String Email;
+    private String email;
     private String id_user;
 
     public UserData() {
     }
 
-    public UserData(String fullName, String nickName, String email) {
-        Email = email;
+    public UserData( String email, String id_user) {
+        this.email = email;
+        this.id_user = id_user;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        email = email;
     }
 
     public String getId_user() {

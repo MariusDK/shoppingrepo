@@ -84,7 +84,7 @@ public class ListDetailsActivity extends AppCompatActivity implements ItemListPr
         userProvider = new UserProvider();
         itemListProvider = new ItemListProvider(this);
 
-        itemListProvider.getShoppingListById(id_list,userProvider.getUserId());
+        itemListProvider.getShoppingListById(id_list);
         Item item;
         items = new ArrayList<>();
         item = new Item();
