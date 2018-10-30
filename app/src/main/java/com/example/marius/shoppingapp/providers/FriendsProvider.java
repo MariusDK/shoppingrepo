@@ -77,7 +77,7 @@ public class FriendsProvider {
                 {
                     String id_user_friend = ds.getKey();
                     getUserDataById(id_user_friend);
-                    friendListListener.getFirendList(friendList);
+
                 }
             }
 
@@ -96,16 +96,14 @@ public class FriendsProvider {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren())
                 {
-
-                    UserData data = (UserData) ds.getValue();
+                    UserData data = ds.getValue(UserData.class);
                     if (data.getId_user().equals(user_friend_id))
                     {
                         friendList.add(data);
                     }
-
                 }
+                friendListListener.getFirendList(friendList);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

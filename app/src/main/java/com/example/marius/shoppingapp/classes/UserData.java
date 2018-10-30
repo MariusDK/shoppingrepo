@@ -10,7 +10,7 @@ public class UserData {
     public UserData() {
     }
 
-    public UserData( String email, String id_user) {
+    public UserData(String email, String id_user) {
         this.email = email;
         this.id_user = id_user;
     }
@@ -20,7 +20,7 @@ public class UserData {
     }
 
     public void setEmail(String email) {
-        email = email;
+        this.email = email;
     }
 
     public String getId_user() {

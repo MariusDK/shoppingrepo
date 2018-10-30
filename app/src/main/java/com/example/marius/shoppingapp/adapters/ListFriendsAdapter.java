@@ -52,7 +52,7 @@ public class ListFriendsAdapter extends ArrayAdapter<UserData> {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            convertView = inflater.inflate(R.layout.cards_layout, parent, false);
+            convertView = inflater.inflate(R.layout.card_friend_list, parent, false);
             holder = new ViewHolder(convertView);
 
             convertView.setTag(holder);
