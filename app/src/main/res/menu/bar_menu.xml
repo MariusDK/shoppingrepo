@@ -5,6 +5,9 @@
         android:id="@+id/sort_id"
         android:title="@string/sort"
         />
+    <item android:id="@+id/friendList_id"
+        android:title="@string/friendFist"
+        />
     <item
         android:id="@+id/logout_id"
         android:title="@string/logout"
